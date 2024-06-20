@@ -1,21 +1,14 @@
-[project]
+[tool.poetry]
 name = "hello-render"
 version = "0.1.0"
-description = "Default template for PDM package"
-authors = [
-    {name = "Louis Maddox", email = "louismmx@gmail.com"},
-]
-dependencies = []
-requires-python = ">=3.12"
+description = ""
+authors = ["Louis Maddox <louismmx@gmail.com>"]
 readme = "README.md"
-license = {text = "MIT"}
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
 
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
-
-[project.scripts]
-hello = "hello_render.main:hello"
-
-[tool.pdm]
-distribution = true
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

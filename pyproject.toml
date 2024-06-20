@@ -9,10 +9,9 @@ readme = "README.md"
 python = "^3.8"
 fastapi = "^0.111.0"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.poetry.plugins]
-hello = "hello_render.main:hello"
+[tool.poetry.plugins."console_scripts"]
+"hello" = "hello_render.main:hello"

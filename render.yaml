@@ -6,4 +6,4 @@ services:
     region: frankfurt
     plan: free
     buildCommand: ./install_mongod.sh && poetry install
-    startCommand: "ls && hello"
+    startCommand: ./mongodb/bin/mongod --config ./mongodb/mongod.conf --fork && hello

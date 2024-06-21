@@ -1,6 +1,6 @@
 services:
   - type: web
-    runtime: python3
+    runtime: python
     name: hello-render
     repo: https://github.com/lmmx/hello-render
     region: frankfurt

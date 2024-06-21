@@ -1,0 +1,9 @@
+services:
+  - type: web
+    runtime: python3
+    name: hello-render
+    repo: https://github.com/lmmx/hello-render
+    region: frankfurt
+    plan: free
+    buildCommand: poetry install
+    startCommand: hello

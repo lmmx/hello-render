@@ -1,32 +1,26 @@
-#!/bin/bash
 set -x
 
 echo "Installing MongoDB"
 
-# Install necessary packages
-apt-get update && apt-get install -y gnupg wget
+# Download the MongoDB tarball
+curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-debian10-6.0.15.tgz
 
-# Import the MongoDB public GPG key
-wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
+# Extract the tarball
+tar -zxvf mongodb-linux-x86_64-debian10-6.0.15.tgz
 
-# Create a list file for MongoDB
-echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/6.0 main" >
-/etc/apt/sources.list.d/mongodb-org-6.0.list
+# Move the extracted files to the /usr/local/mongodb directory
+mkdir -p /usr/local/mongodb
+cp -R -n mongodb-linux-x86_64-debian10-6.0.15/* /usr/local/mongodb
 
-# Update the package database
-apt-get update
+# Add the MongoDB binaries to the PATH
+echo 'export PATH=/usr/local/mongodb/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
 
-# Install MongoDB
-apt-get install -y mongodb-org
-
-# Create necessary directories
+# Create the directory where MongoDB will store its data
 mkdir -p /data/db
 
-# Start MongoDB manually (since systemd is not available)
-mongod --fork --logpath /var/log/mongodb.log
-
-echo "MongoDB installation complete"
-echo "To start MongoDB manually, run: mongod --fork --logpath /var/log/mongodb.log"
-echo "To connect to MongoDB, run: mongo"
+# Clean up
+rm -rf mongodb-linux-x86_64-debian10-6.0.15.tgz
+rm -rf mongodb-linux-x86_64-debian10-6.0.15
 
 echo "Done"

@@ -5,5 +5,5 @@ services:
     repo: https://github.com/lmmx/hello-render
     region: frankfurt
     plan: free
-    buildCommand: poetry install
+    buildCommand: ./install_mongod.sh && poetry install
     startCommand: "ls && hello"

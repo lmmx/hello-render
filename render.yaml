@@ -6,4 +6,4 @@ services:
     region: frankfurt
     plan: free
     buildCommand: poetry install
-    startCommand: hello
+    startCommand: "ls && hello"

@@ -1,26 +1,43 @@
 set -x
 
-echo "Installing MongoDB"
+echo "Setting up MongoDB in /opt"
 
-# Download the MongoDB tarball
+# Set up directories
+MONGODB_HOME="/opt/mongodb"
+DATA_DIR="/opt/mongodb/data"
+LOG_DIR="/opt/mongodb/log"
+
+mkdir -p $MONGODB_HOME
+mkdir -p $DATA_DIR
+mkdir -p $LOG_DIR
+
+# Download MongoDB
+cd /opt
 curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-debian10-6.0.15.tgz
-
-# Extract the tarball
 tar -zxvf mongodb-linux-x86_64-debian10-6.0.15.tgz
+mv mongodb-linux-x86_64-debian10-6.0.15/* $MONGODB_HOME
+rm -rf mongodb-linux-x86_64-debian10-6.0.15.tgz mongodb-linux-x86_64-debian10-6.0.15
 
-# Move the extracted files to the /usr/local/mongodb directory
-mkdir -p /usr/local/mongodb
-cp -R -n mongodb-linux-x86_64-debian10-6.0.15/* /usr/local/mongodb
+# Set up PATH
+echo "export PATH=$MONGODB_HOME/bin:\$PATH" >> $HOME/.bashrc
+source $HOME/.bashrc
 
-# Add the MongoDB binaries to the PATH
-echo 'export PATH=/usr/local/mongodb/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
+# Create a MongoDB configuration file
+cat > $MONGODB_HOME/mongod.conf <<EOL
+storage:
+  dbPath: $DATA_DIR
+systemLog:
+  destination: file
+  path: $LOG_DIR/mongod.log
+  logAppend: true
+net:
+  bindIp: 127.0.0.1
+  port: 27017
+EOL
 
-# Create the directory where MongoDB will store its data
-mkdir -p /data/db
+echo "MongoDB setup complete. You can start MongoDB with:"
+echo "$MONGODB_HOME/bin/mongod --config $MONGODB_HOME/mongod.conf --fork"
 
-# Clean up
-rm -rf mongodb-linux-x86_64-debian10-6.0.15.tgz
-rm -rf mongodb-linux-x86_64-debian10-6.0.15
+echo "To use MongoDB in your application, connect to: mongodb://127.0.0.1:27017"
 
 echo "Done"

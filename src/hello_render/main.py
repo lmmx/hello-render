@@ -8,7 +8,7 @@ port = int(os.environ.get("PORT", 4000))
 @app.get("/")
 def read_root(request: Request, command: str):
     proc = subprocess.run(command.split(), capture_output=True, text=True)
-    return {"out": proc.stdout, "err": proc.stderr, "ret": proc.returncode}
+    return {"command": command, "out": proc.stdout, "err": proc.stderr, "ret": proc.returncode}
 
 def hello():
     import uvicorn

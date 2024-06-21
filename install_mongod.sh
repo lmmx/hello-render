@@ -1,18 +1,20 @@
 set -x
 
-echo "Setting up MongoDB in /opt"
+#!/bin/bash
+
+echo "Setting up MongoDB in /opt/render/project/src"
 
 # Set up directories
-MONGODB_HOME="/opt/mongodb"
-DATA_DIR="/opt/mongodb/data"
-LOG_DIR="/opt/mongodb/log"
+MONGODB_HOME="/opt/render/project/src/mongodb"
+DATA_DIR="$MONGODB_HOME/data"
+LOG_DIR="$MONGODB_HOME/log"
 
 mkdir -p $MONGODB_HOME
 mkdir -p $DATA_DIR
 mkdir -p $LOG_DIR
 
 # Download MongoDB
-cd /opt
+cd /opt/render/project/src
 curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-debian10-6.0.15.tgz
 tar -zxvf mongodb-linux-x86_64-debian10-6.0.15.tgz
 mv mongodb-linux-x86_64-debian10-6.0.15/* $MONGODB_HOME
